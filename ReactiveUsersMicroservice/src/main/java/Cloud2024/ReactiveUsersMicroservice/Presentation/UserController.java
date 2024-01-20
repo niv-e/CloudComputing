@@ -13,6 +13,11 @@ import reactor.core.publisher.Mono;
 @RequestMapping(path = {"/users"})
 public class UserController {
     private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})

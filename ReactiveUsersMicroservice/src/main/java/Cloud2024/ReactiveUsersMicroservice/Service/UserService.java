@@ -4,8 +4,10 @@ import Cloud2024.ReactiveUsersMicroservice.Domain.UserEntity;
 import Cloud2024.ReactiveUsersMicroservice.Domain.UserRepository;
 import Cloud2024.ReactiveUsersMicroservice.Infrastructure.UserMapper;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
-import reactor.core.publisher.Mono;
 
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+@Service
 public class UserService implements IUserService {
 
     private UserRepository userRepository;
