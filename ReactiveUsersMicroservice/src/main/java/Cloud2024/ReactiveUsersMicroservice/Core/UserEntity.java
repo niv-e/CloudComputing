@@ -1,4 +1,4 @@
-package Cloud2024.ReactiveUsersMicroservice.Domain;
+package Cloud2024.ReactiveUsersMicroservice.Core;
 
 import java.util.ArrayList;
 
