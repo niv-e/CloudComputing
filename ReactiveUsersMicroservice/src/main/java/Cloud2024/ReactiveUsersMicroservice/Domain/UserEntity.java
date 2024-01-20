@@ -1,8 +1,13 @@
 package Cloud2024.ReactiveUsersMicroservice.Domain;
 
-import java.util.ArrayList;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+@Document(collection = "users")
 public class UserEntity {
+    @Id
+    private String id;
     private String name;
     private String email;
     private String password;
@@ -11,6 +16,14 @@ public class UserEntity {
     private ArrayList<String> roles;
 
     public UserEntity() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,7 +77,8 @@ public class UserEntity {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", birthdate='" + birthdate + '\'' +
