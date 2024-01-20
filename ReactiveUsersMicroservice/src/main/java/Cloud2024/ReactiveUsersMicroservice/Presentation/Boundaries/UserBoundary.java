@@ -1,8 +1,8 @@
-package Cloud2024.ReactiveUsersMicroservice.Core;
+package Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries;
 
 import java.util.ArrayList;
 
-public class UserEntity {
+public class UserBoundary {
     private String name;
     private String email;
     private String password;
@@ -10,7 +10,7 @@ public class UserEntity {
     private String recruitDate;
     private ArrayList<String> roles;
 
-    public UserEntity() {
+    public UserBoundary() {
     }
 
     public String getName() {
