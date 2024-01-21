@@ -1,12 +1,14 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation;
 
+import org.springframework.http.MediaType;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Service.UserService;
-import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import reactor.core.publisher.Mono;
 
 @RestController
