@@ -4,12 +4,11 @@ import org.springframework.http.MediaType;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+
 
 @RestController
 @RequestMapping(path = {"/users"})
@@ -28,5 +27,23 @@ public class UserController {
         return this.userService
                 .createUser(user)
                 .log();
+    }
+
+    @GetMapping("/{email}")
+    public Mono<UserBoundary> getUserByEmailAndPassword(
+            @PathVariable String email,
+            @RequestParam String password) {
+        return this.userService.getUserByEmailAndPassword(email, password)
+                .log();
+    }
+
+    @GetMapping
+    public Flux<UserBoundary> getAllUsers() {
+        return userService.getAllUsers().log();
+    }
+
+    @GetMapping(params = {"criteria=byDomain", "value"})
+    public Flux<UserBoundary> getUsersByDomain(@RequestParam String value) {
+        return userService.getUsersByDomain(value).log();
     }
 }
