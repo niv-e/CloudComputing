@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class UserEntity {
     @Id
     private String id;
-    private String name;
+    private String firstName;
+    private String LastName;
     private String email;
     private String password;
     private String birthdate;
@@ -26,12 +27,20 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
     }
 
     public String getEmail() {
@@ -78,7 +87,8 @@ public class UserEntity {
     public String toString() {
         return "UserEntity{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", LastName='" + LastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", birthdate='" + birthdate + '\'' +

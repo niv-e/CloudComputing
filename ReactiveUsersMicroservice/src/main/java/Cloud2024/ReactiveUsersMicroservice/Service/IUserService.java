@@ -10,4 +10,8 @@ public interface IUserService {
     Flux<UserBoundary> getUsersByCriteria(String criteria, String value);
     Flux<Void> updateUserDepartment(String email, DepartmentBoundary department);
     Flux<Void> deleteAllUsers();
+    Mono<UserBoundary> createUser(UserBoundary user);
+    Mono<UserBoundary> getUserByEmailAndPassword(String email, String password);
+    Flux<UserBoundary> getAllUsers();
+    Flux<UserBoundary> getUsersByDomain(String domain);
 }
