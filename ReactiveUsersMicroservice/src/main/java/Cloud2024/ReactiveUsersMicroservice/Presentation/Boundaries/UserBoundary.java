@@ -1,9 +1,10 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserBoundary {
-    private String name;
+public class UserBoundary implements Serializable {
+    private NameBoundary name;
     private String email;
     private String password;
     private String birthdate;
@@ -13,11 +14,11 @@ public class UserBoundary {
     public UserBoundary() {
     }
 
-    public String getName() {
+    public NameBoundary getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(NameBoundary name) {
         this.name = name;
     }
 

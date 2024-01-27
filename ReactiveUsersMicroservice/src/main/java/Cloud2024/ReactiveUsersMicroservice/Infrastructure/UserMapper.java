@@ -3,7 +3,8 @@ package Cloud2024.ReactiveUsersMicroservice.Infrastructure;
 import Cloud2024.ReactiveUsersMicroservice.Domain.UserEntity;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -13,13 +14,24 @@ public class UserMapper {
 
     public ModelMapper modelMapper(){
         var userMapper =  new ModelMapper();
-        var userMap = new PropertyMap<UserEntity, UserBoundary>() {
-            protected void configure() {
-                map().setPassword(generateRandomAsterisks());
-            }
-        };
+        userMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        userMapper.addMappings(userMap);
+        TypeMap<UserEntity, UserBoundary> entityToBoundaryMapper = userMapper.createTypeMap(UserEntity.class, UserBoundary.class);
+        entityToBoundaryMapper.addMappings(
+                mapper -> {
+                    mapper.map(src -> generateRandomAsterisks(), UserBoundary::setPassword);
+                    mapper.map(UserEntity::getFirstName, (dest, v) -> dest.getName().setFirst((String) v));
+                    mapper.map(UserEntity::getLastName, (dest, v) -> dest.getName().setLast((String) v));
+                }
+        );
+
+        TypeMap<UserBoundary, UserEntity> boundaryToEntityMapper = userMapper.createTypeMap(UserBoundary.class, UserEntity.class);
+        boundaryToEntityMapper.addMappings(
+                mapper -> {
+                    mapper.map(src -> src.getName().getFirst(), UserEntity::setFirstName);
+                    mapper.map(src -> src.getName().getLast(), UserEntity::setLastName);
+                }
+        );
         return userMapper;
     }
 
