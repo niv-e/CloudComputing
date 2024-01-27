@@ -1,14 +1,13 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation;
 
+import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.DepartmentBoundary;
 import org.springframework.http.MediaType;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -29,4 +28,33 @@ public class UserController {
                 .createUser(user)
                 .log();
     }
+
+    @GetMapping(
+            produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Flux<UserBoundary> getUsersByCriteria(
+            @RequestParam("criteria") String criteria,
+            @RequestParam("value") String value){
+        return this.userService
+                .getUsersByCriteria(criteria, value)
+                .log();
+    }
+
+    @PutMapping(
+            path = "{email}/department",
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Mono<Void> updateUserDepartment(
+            @PathVariable String email,
+            @RequestBody DepartmentBoundary departmentBoundary){
+        return this.userService
+                .updateUserDepartment(email, departmentBoundary)
+                .log();
+    }
+
+    @DeleteMapping
+    public Mono<Void> deleteAllUsers() {
+        return this.userService
+                .deleteAllUsers()
+                .log();
+    }
+
 }
