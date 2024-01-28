@@ -22,6 +22,7 @@ public class UserMapper {
                     mapper.map(src -> generateRandomAsterisks(), UserBoundary::setPassword);
                     mapper.map(UserEntity::getFirstName, (dest, v) -> dest.getName().setFirst((String) v));
                     mapper.map(UserEntity::getLastName, (dest, v) -> dest.getName().setLast((String) v));
+                    mapper.map(UserEntity::getDepartment, UserBoundary::setDepartment); // Map department
                 }
         );
 
@@ -30,6 +31,7 @@ public class UserMapper {
                 mapper -> {
                     mapper.map(src -> src.getName().getFirst(), UserEntity::setFirstName);
                     mapper.map(src -> src.getName().getLast(), UserEntity::setLastName);
+                    mapper.map(UserBoundary::getDepartment, UserEntity::setDepartment); // Map department
                 }
         );
         return userMapper;

@@ -40,34 +40,24 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Flux<UserBoundary> getUsersByDomain(String domain) {
-        return userRepository.findByEmailEndingWith(domain)
-                .map(userEntity -> userMapper.modelMapper().map(userEntity, UserBoundary.class));
-    }
-
-
-    @Override
     public Flux<UserBoundary> getUsersByCriteria(String criteria, String value) {
         Flux<UserEntity> userEntityFlux;
         switch (criteria) {
-            case "byLastname":
-                userEntityFlux = userRepository.findByLastName(value);
-                break;
-            case "byMinimumAge":
-                userEntityFlux = userRepository.findByMinimumAge(value);
-                break;
-            case "byDepartmentId":
-                userEntityFlux = userRepository.findByDepartmentId(value);
-                break;
-            default:
+            case "byLastname" -> userEntityFlux = userRepository.findByLastName(value);
+//            case "byMinimumAge" -> userEntityFlux = userRepository.findByMinimumAge(value);
+            case "byDepartmentId" -> userEntityFlux = userRepository.findByDepartmentDeptId(value);
+            case "byDomain" -> userEntityFlux = userRepository.findByEmailEndingWith(value);
+            default -> {
                 return Flux.empty();
+            }
         }
 
         return userEntityFlux
                 .map(entity -> userMapper.modelMapper().map(entity, UserBoundary.class));
     }
 
-    public Mono<Void> updateUserDepartment(String email, DepartmentBoundary department){
+    @Override
+    public Mono<UserBoundary> updateUserDepartment(String email, DepartmentBoundary department){
         //validate user
         //validate department
         //update department of user

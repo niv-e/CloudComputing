@@ -1,6 +1,7 @@
 package Cloud2024.ReactiveUsersMicroservice.Domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class UserEntity {
     private String birthdate;
     private String recruitDate;
     private ArrayList<String> roles;
+    @DBRef
+    private DepartmentEntity department;
 
     public UserEntity() {
     }
@@ -83,6 +86,10 @@ public class UserEntity {
         this.roles = roles;
     }
 
+    public DepartmentEntity getDepartment() { return department; }
+
+    public void setDepartment(DepartmentEntity department) { this.department = department; }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -94,6 +101,7 @@ public class UserEntity {
                 ", birthdate='" + birthdate + '\'' +
                 ", recruitDate='" + recruitDate + '\'' +
                 ", roles=" + roles +
+                ", department=" + department +
                 '}';
     }
 }

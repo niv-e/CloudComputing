@@ -29,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping(
+            path = "/criteria",
             produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
     public Flux<UserBoundary> getUsersByCriteria(
             @RequestParam("criteria") String criteria,
@@ -41,7 +42,7 @@ public class UserController {
     @PutMapping(
             path = "{email}/department",
             consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Mono<Void> updateUserDepartment(
+    public Mono<UserBoundary> updateUserDepartment(
             @PathVariable String email,
             @RequestBody DepartmentBoundary departmentBoundary){
         return this.userService
@@ -56,7 +57,6 @@ public class UserController {
                 .log();
     }
 
-
     @GetMapping("/{email}")
     public Mono<UserBoundary> getUserByEmailAndPassword(
             @PathVariable String email,
@@ -65,13 +65,9 @@ public class UserController {
                 .log();
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
     public Flux<UserBoundary> getAllUsers() {
-        return userService.getAllUsers().log();
+        return this.userService.getAllUsers().log();
     }
 
-    @GetMapping(params = {"criteria=byDomain", "value"})
-    public Flux<UserBoundary> getUsersByDomain(@RequestParam String value) {
-        return userService.getUsersByDomain(value).log();
-    }
 }
