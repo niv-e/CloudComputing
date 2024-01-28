@@ -45,7 +45,7 @@ public class UserService implements IUserService {
         switch (criteria) {
             case "byLastname" -> userEntityFlux = userRepository.findByLastName(value);
             case "byMinimumAge" -> userEntityFlux = this.userRepository.findAll().filter(user -> user.calculateAge() >= Integer.parseInt(value));
-            case "byDepartmentId" -> userEntityFlux = userRepository.findByDepartmentDeptId(value);
+            case "byDepartmentId" -> userEntityFlux = userRepository.findByDeptId(value);
             case "byDomain" -> userEntityFlux = userRepository.findByEmailEndingWith(value);
             default -> {
                 return Flux.empty();
