@@ -39,17 +39,6 @@ public class UserController {
                 .log();
     }
 
-    @PutMapping(
-            path = "{email}/department",
-            consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Mono<UserBoundary> updateUserDepartment(
-            @PathVariable String email,
-            @RequestBody DepartmentBoundary departmentBoundary){
-        return this.userService
-                .updateUserDepartment(email, departmentBoundary)
-                .log();
-    }
-
     @DeleteMapping
     public Mono<Void> deleteAllUsers() {
         return this.userService

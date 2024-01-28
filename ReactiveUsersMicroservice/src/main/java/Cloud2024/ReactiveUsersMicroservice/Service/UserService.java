@@ -44,24 +44,15 @@ public class UserService implements IUserService {
         Flux<UserEntity> userEntityFlux;
         switch (criteria) {
             case "byLastname" -> userEntityFlux = userRepository.findByLastName(value);
-//            case "byMinimumAge" -> userEntityFlux = userRepository.findByMinimumAge(value);
+            case "byMinimumAge" -> userEntityFlux = this.userRepository.findAll().filter(user -> user.calculateAge() >= Integer.parseInt(value));
             case "byDepartmentId" -> userEntityFlux = userRepository.findByDepartmentDeptId(value);
             case "byDomain" -> userEntityFlux = userRepository.findByEmailEndingWith(value);
             default -> {
                 return Flux.empty();
             }
         }
-
         return userEntityFlux
                 .map(entity -> userMapper.modelMapper().map(entity, UserBoundary.class));
-    }
-
-    @Override
-    public Mono<UserBoundary> updateUserDepartment(String email, DepartmentBoundary department){
-        //validate user
-        //validate department
-        //update department of user
-        return Mono.empty();
     }
 
     @Override

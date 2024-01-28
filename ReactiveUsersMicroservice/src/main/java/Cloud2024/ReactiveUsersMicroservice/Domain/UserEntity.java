@@ -1,10 +1,14 @@
 package Cloud2024.ReactiveUsersMicroservice.Domain;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+
 @Document(collection = "users")
 public class UserEntity {
     @Id
@@ -17,7 +21,7 @@ public class UserEntity {
     private String recruitDate;
     private ArrayList<String> roles;
     @DBRef
-    private DepartmentEntity department;
+    private String deptId;
 
     public UserEntity() {
     }
@@ -86,9 +90,25 @@ public class UserEntity {
         this.roles = roles;
     }
 
-    public DepartmentEntity getDepartment() { return department; }
+     public String getDeptId() {
+        return deptId;
+    }
 
-    public void setDepartment(DepartmentEntity department) { this.department = department; }
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public int calculateAge() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate birthdate = LocalDate.parse(this.birthdate, formatter);
+        LocalDate currentDate = LocalDate.now();
+        int age = currentDate.getYear() - birthdate.getYear();
+        if (birthdate.getMonthValue() > currentDate.getMonthValue() ||
+                (birthdate.getMonthValue() == currentDate.getMonthValue() && birthdate.getDayOfMonth() > currentDate.getDayOfMonth())) {
+            age--;
+        }
+        return age;
+    }
 
     @Override
     public String toString() {
@@ -101,7 +121,7 @@ public class UserEntity {
                 ", birthdate='" + birthdate + '\'' +
                 ", recruitDate='" + recruitDate + '\'' +
                 ", roles=" + roles +
-                ", department=" + department +
+                ", deptId='" + deptId + '\'' +
                 '}';
     }
 }

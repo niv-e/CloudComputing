@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono;
 public interface IUserService {
     Mono<UserBoundary> createUser(UserBoundary user);
     Flux<UserBoundary> getUsersByCriteria(String criteria, String value);
-    Mono<UserBoundary> updateUserDepartment(String email, DepartmentBoundary department);
     Mono<Void> deleteAllUsers();
     Mono<UserBoundary> getUserByEmailAndPassword(String email, String password);
     Flux<UserBoundary> getAllUsers();
