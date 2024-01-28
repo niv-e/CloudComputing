@@ -10,8 +10,9 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface UserRepository extends ReactiveMongoRepository<UserEntity,String> {
 
-    public Mono<UserEntity> findByEmailAndPassword(String email, String password);
-    public Flux<UserEntity> findByEmailEndingWith(String domain);
-
+    Flux<UserEntity> findByLastName(String lastName);
+    Flux<UserEntity> findByDeptId(String deptId);
+    Mono<UserEntity> findByEmailAndPassword(String email, String password);
+    Flux<UserEntity> findByEmailEndingWith(String domain);
 
 }

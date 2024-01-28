@@ -1,14 +1,14 @@
 package Cloud2024.ReactiveUsersMicroservice.Service;
 
+import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.DepartmentBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
-import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface IUserService {
-    public Mono<UserBoundary> createUser(UserBoundary user);
-    public Mono<UserBoundary> getUserByEmailAndPassword(String email, String password);
-    public Flux<UserBoundary> getAllUsers();
-
-    public Flux<UserBoundary> getUsersByDomain(String domain);
-
+    Mono<UserBoundary> createUser(UserBoundary user);
+    Flux<UserBoundary> getUsersByCriteria(String criteria, String value);
+    Mono<Void> deleteAllUsers();
+    Mono<UserBoundary> getUserByEmailAndPassword(String email, String password);
+    Flux<UserBoundary> getAllUsers();
 }

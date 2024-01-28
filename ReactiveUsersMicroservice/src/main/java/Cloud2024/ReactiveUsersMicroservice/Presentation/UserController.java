@@ -1,14 +1,13 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation;
 
+import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.DepartmentBoundary;
 import org.springframework.http.MediaType;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
-
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(path = {"/users"})
@@ -29,6 +28,24 @@ public class UserController {
                 .log();
     }
 
+    @GetMapping(
+            path = "/criteria",
+            produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Flux<UserBoundary> getUsersByCriteria(
+            @RequestParam("criteria") String criteria,
+            @RequestParam("value") String value){
+        return this.userService
+                .getUsersByCriteria(criteria, value)
+                .log();
+    }
+
+    @DeleteMapping
+    public Mono<Void> deleteAllUsers() {
+        return this.userService
+                .deleteAllUsers()
+                .log();
+    }
+
     @GetMapping("/{email}")
     public Mono<UserBoundary> getUserByEmailAndPassword(
             @PathVariable String email,
@@ -37,13 +54,9 @@ public class UserController {
                 .log();
     }
 
-    @GetMapping
+    @GetMapping(produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
     public Flux<UserBoundary> getAllUsers() {
-        return userService.getAllUsers().log();
+        return this.userService.getAllUsers().log();
     }
 
-    @GetMapping(params = {"criteria=byDomain", "value"})
-    public Flux<UserBoundary> getUsersByDomain(@RequestParam String value) {
-        return userService.getUsersByDomain(value).log();
-    }
 }

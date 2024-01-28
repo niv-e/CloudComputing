@@ -3,11 +3,11 @@ package Cloud2024.ReactiveUsersMicroservice.Service;
 import Cloud2024.ReactiveUsersMicroservice.Domain.UserEntity;
 import Cloud2024.ReactiveUsersMicroservice.Domain.UserRepository;
 import Cloud2024.ReactiveUsersMicroservice.Infrastructure.UserMapper;
+import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.DepartmentBoundary;
 import Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries.UserBoundary;
-
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserService implements IUserService {
@@ -40,9 +40,24 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Flux<UserBoundary> getUsersByDomain(String domain) {
-        return userRepository.findByEmailEndingWith(domain)
-                .map(userEntity -> userMapper.modelMapper().map(userEntity, UserBoundary.class));
+    public Flux<UserBoundary> getUsersByCriteria(String criteria, String value) {
+        Flux<UserEntity> userEntityFlux;
+        switch (criteria) {
+            case "byLastname" -> userEntityFlux = userRepository.findByLastName(value);
+            case "byMinimumAge" -> userEntityFlux = this.userRepository.findAll().filter(user -> user.calculateAge() >= Integer.parseInt(value));
+            case "byDepartmentId" -> userEntityFlux = userRepository.findByDeptId(value);
+            case "byDomain" -> userEntityFlux = userRepository.findByEmailEndingWith(value);
+            default -> {
+                return Flux.empty();
+            }
+        }
+        return userEntityFlux
+                .map(entity -> userMapper.modelMapper().map(entity, UserBoundary.class));
     }
 
+    @Override
+    public Mono<Void> deleteAllUsers(){
+        return this.userRepository
+                .deleteAll();
+    }
 }

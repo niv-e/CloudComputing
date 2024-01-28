@@ -10,6 +10,7 @@ public class UserBoundary implements Serializable {
     private String birthdate;
     private String recruitDate;
     private ArrayList<String> roles;
+    private DepartmentBoundary department;
 
     public UserBoundary() {
     }
@@ -62,15 +63,24 @@ public class UserBoundary implements Serializable {
         this.roles = roles;
     }
 
+    public DepartmentBoundary getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentBoundary department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "name='" + name + '\'' +
+        return "UserBoundary{" +
+                "name=" + name +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", birthdate='" + birthdate + '\'' +
                 ", recruitDate='" + recruitDate + '\'' +
                 ", roles=" + roles +
+                ", department=" + department +
                 '}';
     }
 }
