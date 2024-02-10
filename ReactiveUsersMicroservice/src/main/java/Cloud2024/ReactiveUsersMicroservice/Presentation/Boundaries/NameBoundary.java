@@ -1,6 +1,8 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries;
 
-public class NameBoundary {
+import java.io.Serializable;
+
+public class NameBoundary implements Serializable {
     private String First;
     private String Last;
 

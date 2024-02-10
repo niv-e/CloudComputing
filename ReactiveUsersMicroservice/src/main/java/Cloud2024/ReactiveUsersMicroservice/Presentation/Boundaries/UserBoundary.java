@@ -1,5 +1,8 @@
 package Cloud2024.ReactiveUsersMicroservice.Presentation.Boundaries;
 
+
+import Cloud2024.ReactiveUsersMicroservice.Infrastructure.Cache.ICacheable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
