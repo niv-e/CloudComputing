@@ -63,4 +63,13 @@ public class MessageServiceImpl implements MessageService {
 			.map(MessageBoundary::new)
 			.log();
 	}
+
+	@Override
+	public Flux<MessageBoundary> findByExternalReferences(Flux<ExternalReferenceBoundary> externalReference) {
+		return
+				externalReference
+						.flatMap(reference -> this.messageCrud.findByExternalReferencesContains(reference))
+						.map(MessageBoundary::new)
+						.log();
+	}
 }

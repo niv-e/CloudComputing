@@ -16,4 +16,8 @@ public interface MessageService {
 	
 	public Flux<MessageBoundary> 
 		getByMessagePattern (String pattern);
+	public Flux<MessageBoundary>
+		findByExternalReferences(Flux<ExternalReferenceBoundary> externalReference);
+
+
 }

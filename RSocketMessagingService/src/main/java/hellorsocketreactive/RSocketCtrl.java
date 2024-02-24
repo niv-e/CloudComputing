@@ -21,7 +21,7 @@ public class RSocketCtrl {
 	}
 
 
-	// java -jar rsc-0.9.1.jar --request --route=publish-message-req-resp --data="{\"messageId\":\"123\",\"publishedTimestamp\":\"2024-02-11T15:22:13.730+0000\",\"messageType\":\"reminderNotification\",\"summary\":\"makesureyouturnoffallthelightsbeforeyouleave\",\"externalReferences\":[{\"service\":\"originService\",\"externalServiceId\":\"abc-123-def-456-7890\"}],\"messageDetails\":{\"attr1\":\"youcanaddanyattributetothemessageDetails\",\"attr2\":{\"subAttr\":\"everytypeofsub-attributeisvalidwithinthemessagedetails\",\"subAttr2\":[\"even\",\"arrays\",\"of\",\"any\",{\"value\":\"type\"},42]}}}" --debug tcp://localhost:7001
+	// java -jar rsc-0.9.1.jar --request --route=publish-message-req-resp --data="{\"messageId\":\"123\",\"publishedTimestamp\":\"2024-02-11T15:22:13.730+0000\",\"messageType\":\"reminderNotification\",\"summary\":\"makesureyouturnoffallthelightsbeforeyouleave\",\"externalReferences\":[{\"service\":\"MockService\",\"externalServiceId\":\"def-123-def-456-7890\"}],\"messageDetails\":{\"attr1\":\"youcanaddanyattributetothemessageDetails\",\"attr2\":{\"subAttr\":\"everytypeofsub-attributeisvalidwithinthemessagedetails\",\"subAttr2\":[\"even\",\"arrays\",\"of\",\"any\",{\"value\":\"type\"},42]}}}" --debug tcp://localhost:7001
 	@MessageMapping("publish-message-req-resp")
 	public Mono<MessageBoundary> create(
 			@Payload MessageBoundary message) {
@@ -29,15 +29,15 @@ public class RSocketCtrl {
 		return messages.create(message);
 	}
 
-	// java -jar rsc-0.9.1.jar --stream --route=get-all-messages-req-stream --debug tcp://localhost:7001
+	// java -jar rsc-0.9.1.jar --stream --route=getAll-req-stream --debug tcp://localhost:7001
 	@MessageMapping("getAll-req-stream")
 	public Flux<MessageBoundary> getAll() {
 		this.logger.debug("invoking: getAll-req-stream");
 		return messages.getAll();
 	}
 
-	// java -jar rsc-0.9.1.jar --channel --route=get-by-patterns-channel --data=- --debug tcp://localhost:7001
-	// input: {"pattern":"e"}
+	// java -jar rsc-0.9.1.jar --channel --route=getMessagesByIds-channel --data=- --debug tcp://localhost:7001
+	// input: {"messageId":"65da2b5659ff531b9db192d5"}
 	@MessageMapping("getMessagesByIds-channel")
 	public Flux<MessageBoundary> getMessagesByIds(
 			Flux<IdBoundary> messageIds) {
@@ -53,10 +53,13 @@ public class RSocketCtrl {
 		return messages.cleanup();
 	}
 
-//	@MessageMapping("get-one-message-req-resp")
-//	public Mono<MessageBoundary> getMessageById(
-//			@Payload IdWrapper idWrapper) {
-//		this.logger.debug("invoking: get-one-message-req-resp");
-//		return messages.getMessageById(idWrapper.getId());
-//	}
+	// java -jar rsc-0.9.1.jar --channel --route=getMessagesByExternalReferences-channel --data=- --debug tcp://localhost:7001
+	// input: {"service":"MockService","externalServiceId":"def-123-def-456-7890"}
+	@MessageMapping("getMessagesByExternalReferences-channel")
+	public Flux<MessageBoundary> getMessagesByExternalReferences(
+			Flux<ExternalReferenceBoundary> externalReferences) {
+		this.logger.debug("invoking: getMessagesByExternalReferences-channel");
+		return messages.findByExternalReferences(externalReferences);
+	}
+
 }

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "MESSAGES")
 public class MessageEntity {
+	@Id
 	private String messageId;
 	private String publishedTimestamp;
 	private String messageType;
