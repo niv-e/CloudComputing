@@ -1,4 +1,4 @@
-package hellorsocketreactive;
+package RSocketMessagingService;
 
 public class IdBoundary {
     private String messageId;

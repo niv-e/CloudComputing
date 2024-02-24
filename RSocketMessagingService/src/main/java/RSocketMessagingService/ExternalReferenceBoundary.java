@@ -1,4 +1,4 @@
-package hellorsocketreactive;
+package RSocketMessagingService;
 
 public class ExternalReferenceBoundary {
     private String service;
