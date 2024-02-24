@@ -1,15 +1,13 @@
-package Cloud2024.ReactiveUsersMicroservice;
+package hellorsocketreactive;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Cloud2024ApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
 	}
-
-
 
 }
